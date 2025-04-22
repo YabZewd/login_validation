@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_validation/screen/home.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,7 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final String _correctEmail = 'two@elective.com';
   final String correctPassword = '123456';
   String _errorMessage = '';
-  bool _isSuccess = false;
 
   @override
   void dispose() {
@@ -52,12 +52,14 @@ class _LoginScreenState extends State<LoginScreen> {
           _passwordController.text == correctPassword) {
         setState(() {
           _errorMessage = '';
-          _isSuccess = true;
+          _emailController.text = '';
+          _passwordController.text = '';
+          Navigator.push(
+              context, MaterialPageRoute(builder: (ctx) => HomeScreen()));
         });
       } else {
         setState(() {
           _errorMessage = 'Invalid email or password';
-          _isSuccess = false;
         });
       }
     }
@@ -68,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -104,11 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   _errorMessage,
                   style: TextStyle(color: Colors.red),
-                ),
-              if (_isSuccess)
-                Text(
-                  'Login Successful!',
-                  style: TextStyle(color: Colors.green),
                 ),
             ],
           ),
